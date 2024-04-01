@@ -3,6 +3,7 @@ package com.nftapp.nftmarketplace.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,8 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureV
         holder.layout_feature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.button_effect);
+                mediaPlayer.start();
                 onClickGoToActivity(position);
             }
         });

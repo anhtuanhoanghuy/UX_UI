@@ -33,12 +33,12 @@ android:layout_height="match_parent">
                 android:textSize="50dp"
                 android:textStyle="bold"
                 android:layout_centerInParent="true"/>
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/action_name"
-                android:src="@drawable/splash_blue"/>
+<!--            <ImageView-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_toStartOf="@+id/action_name"-->
+<!--                android:src="@drawable/splash_blue"/>-->
 <!--       -->
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

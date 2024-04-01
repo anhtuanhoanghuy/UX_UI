@@ -32,7 +32,9 @@
             android:paddingStart="10dp"
             android:text="Con cáo"
             android:textSize="30dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
         <TextView
             android:id="@+id/item_place"
             android:layout_width="wrap_content"

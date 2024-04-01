@@ -19,12 +19,14 @@ public class BossAct extends AppCompatActivity {
 
     public int level = 1 ;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boss);
         Intent intent = getIntent();
-        level = intent.getIntExtra("l",1);
+        level = intent.getIntExtra("l",0);
+
 
         smalltobig = AnimationUtils.loadAnimation(this, R.anim.smalltobig);
 
@@ -37,9 +39,11 @@ public class BossAct extends AppCompatActivity {
         textTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BossAct.this, MainActivity_Quiz.class);
-                intent.putExtra("i", level);
-                startActivity(intent);
+
+                    Intent intent = new Intent(BossAct.this, MainActivity_Quiz.class);
+                    intent.putExtra("i", level);
+                    startActivity(intent);
+
             }
         });
 

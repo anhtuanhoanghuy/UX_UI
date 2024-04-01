@@ -2,6 +2,7 @@ package com.nftapp.nftmarketplace.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         if (category == null){
             return;
         }
-        holder.nameCategory.setText(category.getNameCategory());
+        holder.nameCategory.setText(category.getCategory_name());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext,RecyclerView.HORIZONTAL,false);
         holder.rcvItem.setLayoutManager(linearLayoutManager);
         ItemAdapter itemAdapter = new ItemAdapter(mContext);
@@ -64,6 +65,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.view_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.button_effect);
+                mediaPlayer.start();
                 onClickGotoCategoryPage(category);
             }
         });

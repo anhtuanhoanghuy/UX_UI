@@ -2,6 +2,7 @@ package com.nftapp.nftmarketplace.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nftapp.nftmarketplace.ItemInfo;
 import com.nftapp.nftmarketplace.R;
 import com.nftapp.nftmarketplace.model.Item;
 
+import java.text.BreakIterator;
 import java.util.List;
 
 public class ItemAdapter_2 extends RecyclerView.Adapter<ItemAdapter_2.ItemViewHolder>{
@@ -54,12 +57,14 @@ public class ItemAdapter_2 extends RecyclerView.Adapter<ItemAdapter_2.ItemViewHo
             return;
         }
         holder.itemName.setText(item.getItem_name());
-        holder.itemImg.setImageResource(item.getResourceImage());
-        holder.itemName.setText(item.getItem_name());
+        holder.itemPlace.setText(item.getItem_place());
+        Glide.with( mContext).load(item.getItem_image()).into(holder.itemImg);
 
         holder.layout_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.button_effect);
+                mediaPlayer.start();
                 onClickGoToDetail(item);
             }
         });
@@ -88,14 +93,18 @@ public class ItemAdapter_2 extends RecyclerView.Adapter<ItemAdapter_2.ItemViewHo
 
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
+
         private CardView layout_item;
         private ImageView itemImg;
         private TextView itemName;
+        private TextView itemPlace;
+
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             layout_item = itemView.findViewById(R.id.layout_item);
             itemImg = itemView.findViewById(R.id.item_image);
             itemName = itemView.findViewById(R.id.item_name);
+            itemPlace = itemView.findViewById(R.id.item_place);
 
         }
     }

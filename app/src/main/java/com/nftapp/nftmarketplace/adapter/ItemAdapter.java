@@ -1,7 +1,9 @@
 package com.nftapp.nftmarketplace.adapter;
 
+
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nftapp.nftmarketplace.ItemInfo;
 import com.nftapp.nftmarketplace.R;
 import com.nftapp.nftmarketplace.model.Item;
@@ -57,14 +60,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         if (item == null) {
             return;
         }
-        holder.itemName.setText(item.getItem_name());
-        holder.itemImg.setImageResource(item.getResourceImage());
+
+        Glide.with( mContext).load(item.getItem_image()).into(holder.itemImg);
         holder.itemName.setText(item.getItem_name());
         holder.itemPlace.setText(item.getItem_place());
 
         holder.layout_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.button_effect);
+                mediaPlayer.start();
                 onClickGoToDetail(item);
             }
         });

@@ -23,8 +23,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Quiz_Level_2"
+            android:exported="false" />
+        <activity
             android:name=".DoneAllQuiz"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"
