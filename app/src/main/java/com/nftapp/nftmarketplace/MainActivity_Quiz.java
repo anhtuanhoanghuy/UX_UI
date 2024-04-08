@@ -169,7 +169,10 @@ public class MainActivity_Quiz extends AppCompatActivity {
 
         if (value == 0 || value == 1 || value ==2) {
             LinearLayout layoutParent1 = (LinearLayout) findViewById(R.id.layoutParent1);
+            LinearLayout layoutParent2 = (LinearLayout) findViewById(R.id.layoutParent2);
+
             layoutParent1.setOrientation(LinearLayout.HORIZONTAL);
+            layoutParent2.setOrientation(LinearLayout.HORIZONTAL);
 
             textView.setOnClickListener(new View.OnClickListener() {
 
@@ -199,7 +202,10 @@ public class MainActivity_Quiz extends AppCompatActivity {
         } else if (value == 3 || value == 4 || value == 5) {
 
             LinearLayout layoutParent1 = (LinearLayout) findViewById(R.id.layoutParent1);
+            LinearLayout layoutParent2 = (LinearLayout) findViewById(R.id.layoutParent2);
+
             layoutParent1.setOrientation(LinearLayout.VERTICAL);
+            layoutParent2.setOrientation(LinearLayout.VERTICAL);
             textView.setOnClickListener(new View.OnClickListener() {
 
                 @SuppressLint("SetTextI18n")
