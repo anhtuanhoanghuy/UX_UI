@@ -25,7 +25,7 @@ public class MainActivity_Quiz extends AppCompatActivity {
     private String[][] generalKey = {{"H", "U", "E", "D","O"},{"R", "O", "N", "G","X"},{"H", "I", "O", "N", "U"}};
 
     private String[] question = {"Thủ Đô Việt Nam năm 1800?","Biểu tượng thời Lý?","Triều đại nước ta tồn tại 7 năm?"};
-    private String[] question1 = {"Tỉnh rộng nhất Việt Nam năm 2024?","Thủ Đô Việt Nam năm 2024?","Thực phẩm tiêu thụ chủ yếu ở Việt Nam?"};
+    private String[] question1 = {"Tỉnh rộng nhất Việt Nam năm 2024?","Thủ Đô Việt Nam năm 2024?","Luơng thực chủ yếu ở Việt Nam?"};
 
 
     private String[][] ans1 = {{"Book","Chair"},{"Hue","Hanoi"},{"Pizza","Bread"}};
