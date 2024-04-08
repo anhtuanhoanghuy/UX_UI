@@ -20,13 +20,17 @@ import java.util.Random;
 public class MainActivity_Quiz extends AppCompatActivity {
 
     private int presCounter = 0;
-    private int[] generalPressCounter = {4,3,4};
-    private String[] genralTextAnswer = {"BIRD","CAT","LION"};
-    private String[][] generalKey = {{"R", "I", "B", "D","O"},{"C", "A", "T", "D","X"},{"L", "I", "O", "N", "U"}};
+    private int[] generalPressCounter = {3,4,2};
+    private String[] genralTextAnswer = {"HUE","RONG","HO"};
+    private String[][] generalKey = {{"H", "U", "E", "D","O"},{"R", "O", "N", "G","X"},{"H", "I", "O", "N", "U"}};
+
+    private String[] question = {"Thủ Đô Việt Nam năm 1800?","Biểu tượng thời Lý?","Triều đại nước ta tồn tại 7 năm?"};
+    private String[] question1 = {"Tỉnh rộng nhất Việt Nam năm 2024?","Thủ Đô Việt Nam năm 2024?","Thực phẩm tiêu thụ chủ yếu ở Việt Nam?"};
+
 
     private String[][] ans1 = {{"Book","Chair"},{"Hue","Hanoi"},{"Pizza","Bread"}};
-    private String[][] ans2 = {{"Chicken","Cup"},{"Penguin","Nghe An"},{"Zebra","Rice"}};
-    private String[] ans = {"Chicken", "Penguin", "Zebra"};
+    private String[][] ans2 = {{"Nghe An","Cup"},{"Penguin","HCM"},{"Dragon","Rice"}};
+    private String[] ans = {"Nghe An", "Hanoi", "Rice"};
 
 
 
@@ -69,6 +73,7 @@ public class MainActivity_Quiz extends AppCompatActivity {
 
         smallbigforth = AnimationUtils.loadAnimation(this, R.anim.smallbigforth);
         Button btn = (Button)findViewById(R.id.close);
+        TextView question_txt = (TextView)findViewById(R.id.textQuestion);
 
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -80,6 +85,7 @@ public class MainActivity_Quiz extends AppCompatActivity {
         });
 
         if (value == 1 || value == 2 || value == 0) {
+            question_txt.setText(question[value]);
             keys = generalKey[value];
             textAnswer = genralTextAnswer[value];
             maxPresCounter = generalPressCounter[value];
@@ -91,6 +97,8 @@ public class MainActivity_Quiz extends AppCompatActivity {
             ans_key1 = ans1[value - 3];
             ans_key2 = ans2[value - 3];
             textAnswer = ans[value -3];
+            question_txt.setText(question1[value-3]);
+
             maxPresCounter = 1;
             for (String key : ans_key1) {
                 addView(((LinearLayout) findViewById(R.id.layoutParent1)), key, ((EditText) findViewById(R.id.editText)));
@@ -174,6 +182,7 @@ public class MainActivity_Quiz extends AppCompatActivity {
 
                         editText.setText(editText.getText().toString() + text);
                         textView.startAnimation(smallbigforth);
+                        layoutParent1.removeView(textView);
                         textView.animate().alpha(0).setDuration(300);
                         presCounter++;
 
@@ -201,9 +210,10 @@ public class MainActivity_Quiz extends AppCompatActivity {
                         presCounter++;
                         editText.setText(text);
                         textView.startAnimation(smallbigforth);
-                        textView.animate().alpha(0).setDuration(300);
+                        layoutParent1.removeView(textView);
 
-                        if (presCounter == 1) {
+
+                    if (presCounter == 1) {
                             doValidate();
                             presCounter = 0;
                         }
