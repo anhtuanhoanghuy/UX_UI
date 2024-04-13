@@ -37,12 +37,11 @@ public class MainPage extends AppCompatActivity {
         featureAdapter.setData(getListFeature());
         rcvFeature.setAdapter(featureAdapter);
     }
-
     private List<Feature> getListFeature(){
         List<Feature> list = new ArrayList<>();
-        list.add(new Feature(R.drawable.avt1, "Tham quan"));
-        list.add(new Feature(R.drawable.avt2, "Xếp hình"));
-        list.add(new Feature(R.drawable.avt3, "Tô màu"));
+        list.add(new Feature(R.drawable.thamquan, "Tham quan"));
+        list.add(new Feature(R.drawable.avt2, "Ghép tranh"));
+        list.add(new Feature(R.drawable.tomau, "Tô màu"));
         list.add(new Feature(R.drawable.avt5, "Giải đố"));
         return list;
     }

@@ -42,7 +42,7 @@ public class ItemInfo extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.click_effect);
+                final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.close_effect);
                 mediaPlayer.start();
                 onBackPressed();
             }
@@ -70,8 +70,8 @@ public class ItemInfo extends AppCompatActivity {
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("URL_image",item.getItem_image());
                 Intent intent = new Intent(ItemInfo.this, ImgView.class);
-                intent.putExtra("img",bundle1);
-                final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.button_effect);
+                intent.putExtra("image",bundle1);
+                final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.click_effect);
                 mediaPlayer.start();
                 startActivity(intent);
             }
@@ -93,7 +93,7 @@ public class ItemInfo extends AppCompatActivity {
         favourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.button_effect);
+                final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.click_effect);
                 mediaPlayer.start();
                 if (item.getIsFavourite() == 0) {
                     ApiService.apiService.sendPOST_item("",Integer.toString(item.getId()),"1").enqueue(new Callback<List<Item>>() {

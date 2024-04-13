@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -23,12 +22,6 @@
         android:theme="@style/Theme.VNTravel"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".PuzzleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DoneAllQuiz"
-            android:exported="false" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"
@@ -57,28 +50,17 @@
             android:name=".ImgView"
             android:exported="false" />
         <activity
-            android:name=".MainActivity_Quiz"
-            android:exported="true"
-            android:windowSoftInputMode="adjustNothing" />
+            android:name=".QuizzLevel"
+            android:exported="true" />
         <activity
-            android:name=".MainActivity_Puzzle"
-            android:exported="true"
-            android:windowSoftInputMode="adjustNothing" />
+            android:name=".QuizzPackageSelector"
+            android:exported="true" />
         <activity
-            android:name=".BossAct"
-            android:exported="true"
-            android:windowSoftInputMode="adjustNothing" />
-        <provider
-            android:authorities="${applicationId}.fileprovider"
-            android:name="androidx.core.content.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            >
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"
-                />
-        </provider>
+            android:name=".QuestionActivity"
+            android:exported="true" />
+        <activity
+            android:name=".QuizzResult"
+            android:exported="true" />
     </application>
 
 </manifest>

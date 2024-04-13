@@ -3,7 +3,6 @@ package com.nftapp.nftmarketplace;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -12,15 +11,10 @@ import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nftapp.nftmarketplace.adapter.CategoryAdapter;
-import com.nftapp.nftmarketplace.adapter.ItemAdapter;
 import com.nftapp.nftmarketplace.adapter.ItemAdapter_2;
 import com.nftapp.nftmarketplace.api.ApiService;
 import com.nftapp.nftmarketplace.model.Category;
@@ -29,11 +23,7 @@ import com.nftapp.nftmarketplace.model.Item;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class CategoryPage extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -60,7 +50,7 @@ public class CategoryPage extends AppCompatActivity implements SwipeRefreshLayou
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final MediaPlayer mediaPlayer = MediaPlayer.create(CategoryPage.this,R.raw.click_effect);
+                final MediaPlayer mediaPlayer = MediaPlayer.create(CategoryPage.this,R.raw.close_effect);
                 mediaPlayer.start();
                 onBackPressed();
             }
@@ -139,7 +129,6 @@ public class CategoryPage extends AppCompatActivity implements SwipeRefreshLayou
             }
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-                Toast.makeText(CategoryPage.this,"failed",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -156,7 +145,6 @@ public class CategoryPage extends AppCompatActivity implements SwipeRefreshLayou
             }
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-                Toast.makeText(CategoryPage.this,"failed",Toast.LENGTH_SHORT).show();
             }
         });
     }

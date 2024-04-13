@@ -15,12 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nftapp.nftmarketplace.CategoryPage;
-import com.nftapp.nftmarketplace.ItemInfo;
 import com.nftapp.nftmarketplace.R;
 import com.nftapp.nftmarketplace.model.Category;
-import com.nftapp.nftmarketplace.model.Item;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>{
@@ -65,7 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.view_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.button_effect);
+                final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.click_effect);
                 mediaPlayer.start();
                 onClickGotoCategoryPage(category);
             }

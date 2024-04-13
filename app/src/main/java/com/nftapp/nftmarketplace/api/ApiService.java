@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nftapp.nftmarketplace.model.Category;
 import com.nftapp.nftmarketplace.model.Item;
+import com.nftapp.nftmarketplace.model.Question;
+import com.nftapp.nftmarketplace.model.QuizzPackage;
 
 import java.util.List;
 
@@ -42,5 +44,15 @@ public interface ApiService {
     Call<List<Category>> sendPOST_favourite(@Field("category_name") String name,
                                            @Field("item_limit") String item_limit,
                                            @Field("search") String search);
+    @FormUrlEncoded
+    @POST("Quizz.php")
+    Call<List<Question>> sendPOST_question(@Field("level") String quizz_level,
+                                        @Field("package") String quizz_package);
+
+    @FormUrlEncoded
+    @POST("Quizz.php")
+    Call<List<QuizzPackage>> sendPOST_package(@Field("level") String quizz_level,
+                                              @Field("package") String quizz_package);
+
 
 }

@@ -7,21 +7,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nftapp.nftmarketplace.adapter.CategoryAdapter;
-import com.nftapp.nftmarketplace.adapter.ItemAdapter;
 import com.nftapp.nftmarketplace.adapter.ItemAdapter_2;
 import com.nftapp.nftmarketplace.api.ApiService;
 import com.nftapp.nftmarketplace.model.Category;
@@ -59,7 +53,7 @@ public class Travel extends AppCompatActivity implements SwipeRefreshLayout.OnRe
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final MediaPlayer mediaPlayer = MediaPlayer.create(Travel.this,R.raw.click_effect);
+                final MediaPlayer mediaPlayer = MediaPlayer.create(Travel.this,R.raw.close_effect);
                 mediaPlayer.start();
                 onBackPressed();
             }
@@ -135,7 +129,6 @@ public class Travel extends AppCompatActivity implements SwipeRefreshLayout.OnRe
                 }
                 @Override
                 public void onFailure(Call<List<Item>> call, Throwable t) {
-                    Toast.makeText(Travel.this,"failed",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -166,14 +159,12 @@ public class Travel extends AppCompatActivity implements SwipeRefreshLayout.OnRe
                             }
                             @Override
                             public void onFailure(Call<List<Item>> call, Throwable t) {
-                                Toast.makeText(Travel.this, "failed", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 }
                 @Override
                 public void onFailure(Call<List<Category>> call, Throwable t) {
-                    Toast.makeText(Travel.this,"failed",Toast.LENGTH_SHORT).show();
                 }
             });
         }
