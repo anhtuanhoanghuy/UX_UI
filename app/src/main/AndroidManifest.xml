@@ -61,6 +61,16 @@
         <activity
             android:name=".QuizzResult"
             android:exported="true" />
+        <activity
+            android:name=".MainActivity_Quiz"
+            android:exported="true" />
+        <activity
+            android:name=".BossAct"
+            android:exported="true" />
+        <activity
+            android:name=".DoneAllQuiz"
+            android:exported="true" />
+
     </application>
 
 </manifest>
