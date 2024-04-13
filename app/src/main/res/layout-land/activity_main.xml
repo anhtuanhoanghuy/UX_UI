@@ -39,8 +39,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="45dp"
         android:background="@drawable/bgquestion"
-        android:layout_centerHorizontal="true"
-
         android:layout_marginLeft="180dp"
         >
     </LinearLayout>
@@ -71,8 +69,6 @@
         android:padding="10dp"
         android:layout_marginLeft="200dp"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-
         android:textColor="#332FA2"
         android:textSize="32sp" />
 
@@ -97,7 +93,6 @@
         android:lineSpacingExtra="6dp"
         android:layout_marginLeft="200dp"
         android:text="Guess Animals in English language"
-        android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:textColor="#332FA2"
         android:textSize="26sp"
