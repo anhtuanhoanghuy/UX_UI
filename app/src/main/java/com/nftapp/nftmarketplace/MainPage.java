@@ -43,6 +43,7 @@ public class MainPage extends AppCompatActivity {
         list.add(new Feature(R.drawable.avt2, "Ghép tranh"));
         list.add(new Feature(R.drawable.tomau, "Tô màu"));
         list.add(new Feature(R.drawable.avt5, "Giải đố"));
+        list.add(new Feature(R.drawable.cauvang, "Giải đố 2"));
         return list;
     }
 

@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nftapp.nftmarketplace.ImgView;
+import com.nftapp.nftmarketplace.MainActivity_Quiz;
 import com.nftapp.nftmarketplace.QuizzLevel;
 import com.nftapp.nftmarketplace.Travel;
 import com.nftapp.nftmarketplace.ItemInfo;
@@ -76,6 +77,9 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureV
                break;
            case 3:
                intent = new Intent(mContext, QuizzLevel.class);
+               break;
+           case 4:
+               intent = new Intent(mContext, MainActivity_Quiz.class);
                break;
            
        }
