@@ -9,6 +9,8 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.abs;
 
+import com.nftapp.nftmarketplace.model.PuzzlePiece;
+
 public class TouchListener implements View.OnTouchListener {
     private float xDelta;
     private float yDelta;

@@ -2,6 +2,7 @@ package com.nftapp.nftmarketplace;
 
 import static java.lang.Math.abs;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -14,17 +15,23 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.nftapp.nftmarketplace.model.PuzzlePiece;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +44,7 @@ public class PuzzleActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     String mCurrentPhotoUri;
     private ImageView close_button;
+    private ConstraintLayout exit_quizz_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +94,36 @@ public class PuzzleActivity extends AppCompatActivity {
                     lParams.topMargin = layout.getHeight() - piece.pieceHeight;
                     piece.setLayoutParams(lParams);
                 }
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        View view = LayoutInflater.from(PuzzleActivity.this).inflate(R.layout.exit_quizz, exit_quizz_layout);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PuzzleActivity.this);
+        builder.setView(view);
+        Button cancel_button = view.findViewById(R.id.cancel_button);
+        Button accept = view.findViewById(R.id.accept_button);
+        final AlertDialog alertDialog = builder.create();
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(PuzzleActivity.this,R.raw.close_effect);
+                mediaPlayer.start();
+                alertDialog.dismiss();
+            }
+        });
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(PuzzleActivity.this,R.raw.close_effect);
+                mediaPlayer.start();
+                finish();
             }
         });
     }

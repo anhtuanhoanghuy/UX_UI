@@ -22,8 +22,8 @@ public class ImageAdapter extends BaseAdapter {
     private AssetManager am;
     private String[] files;
 
-    public ImageAdapter(Context c) {
-        mContext = c;
+    public ImageAdapter(Context mContext) {
+        mContext = mContext;
         am = mContext.getAssets();
         try {
             files  = am.list("img");

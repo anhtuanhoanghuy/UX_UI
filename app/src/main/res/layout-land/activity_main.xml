@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,37 +9,52 @@
     tools:context=".MainActivity_Quiz">
 
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="140dp"
-        android:layout_height="44dp"
-        android:layout_marginRight="150dp"
-        android:layout_marginLeft="300dp"
-        android:layout_gravity="top"
-        android:text="Time"
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="Time"
+            android:textColor="#FFF"
+            android:textSize="28sp" />
+
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignRight="@id/time"
+        android:layout_gravity="right"
+        android:layout_marginRight="-263dp"
+        android:text="X"
         android:textColor="#FFF"
         android:textSize="22sp" />
 
+
     <LinearLayout
-        android:layout_width="290dp"
-        android:layout_height="120dp"
+        android:layout_width="258dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/time"
         android:layout_gravity="center"
-        android:layout_marginLeft="-400dp"
-        android:layout_marginTop="-100dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/bgquestion"
-        android:gravity="right"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginLeft="180dp"
+        >
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutParent1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="150dp"
+        android:layout_below="@id/editText"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textQuestion"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="6dp"
-            android:paddingRight="40dp"
-            android:text="Guess Animals in English language"
-            android:textAlignment="center"
-            android:textColor="#332FA2"
-            android:textSize="26sp" />
 
     </LinearLayout>
 
@@ -47,38 +62,45 @@
         android:id="@+id/editText"
         android:layout_width="200dp"
         android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="-240dp"
+        android:layout_below="@id/textQuestion"
         android:background="@drawable/bgpurple"
         android:clickable="false"
         android:focusable="false"
         android:gravity="center"
+        android:lineSpacingExtra="6dp"
         android:padding="10dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+
         android:textColor="#332FA2"
         android:textSize="32sp" />
 
-
-    <LinearLayout
-        android:id="@+id/layoutParent1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="-360dp"
-        android:layout_marginTop="120dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-
-    </LinearLayout>
     <LinearLayout
         android:id="@+id/layoutParent2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-320dp"
-        android:layout_marginTop="120dp"
         android:layout_gravity="center"
+        android:layout_marginLeft="450dp"
+        android:layout_below="@id/editText"
         android:orientation="horizontal">
+
 
     </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textQuestion"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time"
+        android:layout_marginTop="50dp"
+        android:lineSpacingExtra="6dp"
+        android:layout_marginLeft="200dp"
+        android:text="Guess Animals in English language"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textColor="#332FA2"
+        android:textSize="26sp"
+        android:gravity="center"/>
+
+</RelativeLayout>

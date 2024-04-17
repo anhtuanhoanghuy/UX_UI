@@ -3,6 +3,7 @@ package com.nftapp.nftmarketplace.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nftapp.nftmarketplace.CategoryPage;
 import com.nftapp.nftmarketplace.ImgView;
 import com.nftapp.nftmarketplace.MainActivity_Puzzle;
 import com.nftapp.nftmarketplace.QuizzLevel;
@@ -81,6 +83,8 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureV
                break;
            
        }
+        final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.click_effect);
+        mediaPlayer.start();
         mContext.startActivity(intent);
 
     }

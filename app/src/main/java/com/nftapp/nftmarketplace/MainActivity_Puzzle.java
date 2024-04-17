@@ -61,6 +61,8 @@ public class MainActivity_Puzzle extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent = new Intent(getApplicationContext(), PuzzleActivity.class);
                     intent.putExtra("assetName", files[i % files.length]);
+                    final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity_Puzzle.this,R.raw.click_effect);
+                    mediaPlayer.start();
                     startActivity(intent);
                 }
             });
@@ -70,6 +72,8 @@ public class MainActivity_Puzzle extends AppCompatActivity {
     }
 
     public void onImageFromCameraClick(View view) {
+        final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity_Puzzle.this,R.raw.click_effect);
+        mediaPlayer.start();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
@@ -141,6 +145,8 @@ public class MainActivity_Puzzle extends AppCompatActivity {
     }
 
     public void onImageFromGalleryClick(View view) {
+        final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity_Puzzle.this,R.raw.click_effect);
+        mediaPlayer.start();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
         } else {

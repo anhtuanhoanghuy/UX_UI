@@ -1,4 +1,4 @@
-package com.nftapp.nftmarketplace;
+package com.nftapp.nftmarketplace.model;
 
 import android.content.Context;
 
@@ -14,4 +14,5 @@ public class PuzzlePiece extends AppCompatImageView {
     public PuzzlePiece(Context context) {
         super(context);
     }
+
 }

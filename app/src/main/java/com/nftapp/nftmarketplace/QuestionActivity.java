@@ -105,12 +105,16 @@ public class QuestionActivity extends AppCompatActivity {
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this,R.raw.close_effect);
+                mediaPlayer.start();
                 alertDialog.dismiss();
             }
         });
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this,R.raw.close_effect);
+                mediaPlayer.start();
                 timer.cancel();
                 finish();
             }
