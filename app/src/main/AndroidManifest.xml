@@ -65,6 +65,12 @@
             android:name=".MainActivity_Quiz"
             android:exported="true" />
         <activity
+            android:name=".MainActivity_Puzzle"
+            android:exported="true" />
+        <activity
+            android:name=".PuzzleActivity"
+            android:exported="true" />
+        <activity
             android:name=".BossAct"
             android:exported="true" />
         <activity
