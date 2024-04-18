@@ -76,7 +76,6 @@ public class CategoryPage extends AppCompatActivity implements SwipeRefreshLayou
         }
         Category category = (Category) bundle.get("object_category");
         category_name = findViewById(R.id.category_name);
-        Intent intent = getIntent();
         category_name.setText(category.getCategory_name());
         getListItem(category.getCategory_name());
         rcvItem.setAdapter(mItemAdapter);

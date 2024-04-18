@@ -1,10 +1,7 @@
 package com.nftapp.nftmarketplace;
 
 import static java.lang.Math.abs;
-
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -19,7 +16,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,29 +26,26 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.nftapp.nftmarketplace.model.PuzzlePiece;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 public class PuzzleActivity extends AppCompatActivity {
     ArrayList<PuzzlePiece> pieces;
-    String mCurrentPhotoPath;
-    String mCurrentPhotoUri;
-    private ImageView close_button;
+    private ImageView close_button, imageView;
     private ConstraintLayout exit_quizz_layout;
+    private  RelativeLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
-
-        final RelativeLayout layout = findViewById(R.id.layout);
-        final ImageView imageView = findViewById(R.id.imageView);
+        layout = findViewById(R.id.layout);
+        imageView = findViewById(R.id.imageView);
 
         close_button = findViewById(R.id.close_button);
         close_button.setOnClickListener(new View.OnClickListener() {
@@ -64,38 +57,23 @@ public class PuzzleActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Intent intent = getIntent();
-        final String assetName = intent.getStringExtra("assetName");
-        mCurrentPhotoPath = intent.getStringExtra("mCurrentPhotoPath");
-        mCurrentPhotoUri = intent.getStringExtra("mCurrentPhotoUri");
 
-        // run image related code after the view was laid out
-        // to have all dimensions calculated
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (assetName != null) {
-                    setPicFromAsset(assetName, imageView);
-                } else if (mCurrentPhotoPath != null) {
-                    setPicFromPath(mCurrentPhotoPath, imageView);
-                } else if (mCurrentPhotoUri != null) {
-                    imageView.setImageURI(Uri.parse(mCurrentPhotoUri));
-                }
-                pieces = splitImage();
-                TouchListener touchListener = new TouchListener(PuzzleActivity.this);
-                // shuffle pieces order
-                Collections.shuffle(pieces);
-                for (PuzzlePiece piece : pieces) {
-                    piece.setOnTouchListener(touchListener);
-                    layout.addView(piece);
-                    // randomize position, on the bottom of the screen
-                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-                    lParams.topMargin = layout.getHeight() - piece.pieceHeight;
-                    piece.setLayoutParams(lParams);
-                }
-            }
-        });
+        String url = getIntent().getStringExtra("object_image");
+        setPicFromUrl(url);
+//        pieces = splitImage(imageView);
+//        TouchListener touchListener = new TouchListener(PuzzleActivity.this);
+//        // shuffle pieces order
+//        Collections.shuffle(pieces);
+//        for (PuzzlePiece piece : pieces) {
+//            piece.setOnTouchListener(touchListener);
+//            layout.addView(piece);
+//            // randomize position, on the bottom of the screen
+//            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+//            lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+//            lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+//            piece.setLayoutParams(lParams);
+//        }
+
     }
     @Override
     public void onBackPressed() {
@@ -128,51 +106,16 @@ public class PuzzleActivity extends AppCompatActivity {
         });
     }
 
-    private void setPicFromAsset(String assetName, ImageView imageView) {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
 
-        AssetManager am = getAssets();
-        try {
-            InputStream is = am.open("img/" + assetName);
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
-
-            // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-            is.reset();
-
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-
-            Bitmap bitmap = BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-            imageView.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private ArrayList<PuzzlePiece> splitImage() {
+    private ArrayList<PuzzlePiece> splitImage(ImageView imageView) {
         int piecesNumber = 12;
         int rows = 4;
         int cols = 3;
 
-        ImageView imageView = findViewById(R.id.imageView);
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);
-
-        // Get the scaled bitmap of the source image
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
-
+////
         int[] dimensions = getBitmapPositionInsideImageView(imageView);
         int scaledBitmapLeft = dimensions[0];
         int scaledBitmapTop = dimensions[1];
@@ -181,7 +124,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
         int croppedImageWidth = scaledBitmapWidth - 2 * abs(scaledBitmapLeft);
         int croppedImageHeight = scaledBitmapHeight - 2 * abs(scaledBitmapTop);
-
+//
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledBitmapWidth, scaledBitmapHeight, true);
         Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, abs(scaledBitmapLeft), abs(scaledBitmapTop), croppedImageWidth, croppedImageHeight);
 
@@ -292,7 +235,7 @@ public class PuzzleActivity extends AppCompatActivity {
             }
             yCoord += pieceHeight;
         }
-
+//
         return pieces;
     }
 
@@ -336,13 +279,11 @@ public class PuzzleActivity extends AppCompatActivity {
 
         return ret;
     }
-
     public void checkGameOver() {
         if (isGameOver()) {
             finish();
         }
     }
-
     private boolean isGameOver() {
         for (PuzzlePiece piece : pieces) {
             if (piece.canMove) {
@@ -353,49 +294,56 @@ public class PuzzleActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setPicFromPath(String mCurrentPhotoPath, ImageView imageView) {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
+    private void setPicFromUrl(String url) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL src = new URL(url);
+                    HttpURLConnection connection = (HttpURLConnection) src.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    int targetW = 300;
+                    int targetH = 500;
 
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        Bitmap rotatedBitmap = bitmap;
-
-        // rotate bitmap if needed
-        try {
-            ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
-            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotatedBitmap = rotateImage(bitmap, 90);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotatedBitmap = rotateImage(bitmap, 180);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotatedBitmap = rotateImage(bitmap, 270);
-                    break;
+                    // Get the dimensions of the bitmap
+                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                    bmOptions.inJustDecodeBounds = true;
+                    int photoW = bmOptions.outWidth;
+                    int photoH = bmOptions.outHeight;
+                    int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+                    // Decode the image file into a Bitmap sized to fill the View
+                    bmOptions.inJustDecodeBounds = false;
+                    bmOptions.inSampleSize = scaleFactor;
+                    bmOptions.inPurgeable = true;
+                    Bitmap bitmap = BitmapFactory.decodeStream(input,new Rect(-1, -1, -1, -1),bmOptions);
+                    Bitmap rotatedBitmap = bitmap;
+                    try {
+                        ExifInterface ei = new ExifInterface(input);
+                        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                        switch (orientation) {
+                            case ExifInterface.ORIENTATION_ROTATE_90:
+                                rotatedBitmap = rotateImage(bitmap, 90);
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_180:
+                                rotatedBitmap = rotateImage(bitmap, 180);
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_270:
+                                rotatedBitmap = rotateImage(bitmap, 270);
+                                break;
+                        }
+                    } catch (IOException e) {
+                        Toast.makeText(PuzzleActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    imageView.setImageBitmap(rotatedBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
+        });
+        thread.start();
 
-        imageView.setImageBitmap(rotatedBitmap);
     }
 
     public static Bitmap rotateImage(Bitmap source, float angle) {

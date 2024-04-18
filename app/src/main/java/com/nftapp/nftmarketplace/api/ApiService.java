@@ -30,18 +30,18 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("Travel.php")
-    Call<List<Item>> sendPOST_item(@Field("category_name") String name,
+    Call<List<Item>> sendPOST_item(@Field("category_name") String category_name,
                              @Field("item_limit") String item_limit,
                              @Field("search") String search);
     @FormUrlEncoded
     @POST("Travel.php")
-    Call<List<Category>> sendPOST_category(@Field("category_name") String name,
+    Call<List<Category>> sendPOST_category(@Field("category_name") String category_name,
                                   @Field("item_limit") String item_limit,
                                   @Field("search") String search);
 
     @FormUrlEncoded
     @POST("Travel.php")
-    Call<List<Category>> sendPOST_favourite(@Field("category_name") String name,
+    Call<List<Category>> sendPOST_favourite(@Field("category_name") String category_name,
                                            @Field("item_limit") String item_limit,
                                            @Field("search") String search);
     @FormUrlEncoded
