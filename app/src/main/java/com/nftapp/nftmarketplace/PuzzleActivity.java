@@ -2,6 +2,7 @@ package com.nftapp.nftmarketplace;
 
 import static java.lang.Math.abs;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,6 +17,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.nftapp.nftmarketplace.model.PuzzlePiece;
 
@@ -33,6 +36,17 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Stack;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 public class PuzzleActivity extends AppCompatActivity {
     ArrayList<PuzzlePiece> pieces;
@@ -54,27 +68,51 @@ public class PuzzleActivity extends AppCompatActivity {
             {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(PuzzleActivity.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 finish();
             }
         });
 
         String url = getIntent().getStringExtra("object_image");
-        setPicFromUrl(url);
-//        pieces = splitImage(imageView);
-//        TouchListener touchListener = new TouchListener(PuzzleActivity.this);
-//        // shuffle pieces order
-//        Collections.shuffle(pieces);
-//        for (PuzzlePiece piece : pieces) {
-//            piece.setOnTouchListener(touchListener);
-//            layout.addView(piece);
-//            // randomize position, on the bottom of the screen
-//            RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
-//            lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
-//            lParams.topMargin = layout.getHeight() - piece.pieceHeight;
-//            piece.setLayoutParams(lParams);
-//        }
+        String mCurrentPhotoPath = getIntent().getStringExtra("mCurrentPhotoPath");
+        String mCurrentPhotoUri = getIntent().getStringExtra("mCurrentPhotoUri");
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                if(url == null) {
+                    if(mCurrentPhotoPath != null) {
+                        setPicFromPhotoPath(mCurrentPhotoPath, imageView);
+                    } else if (mCurrentPhotoUri != null) {
+                        imageView.setImageURI(Uri.parse(mCurrentPhotoUri));
+                    }
+                    pieces = splitImage(imageView);
+                    TouchListener touchListener = new TouchListener(PuzzleActivity.this);
+                    // shuffle pieces order
+                    Collections.shuffle(pieces);
+                    for (PuzzlePiece piece : pieces) {
+                        piece.setOnTouchListener(touchListener);
+                        layout.addView(piece);
+                        // randomize position, on the bottom of the screen
+                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                        lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                        lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                        piece.setLayoutParams(lParams);
+                    }
+                } else {
+                    setPicFromUrl(url,imageView);
+                }
 
+            }
+        });
     }
+
+
+
     @Override
     public void onBackPressed() {
         View view = LayoutInflater.from(PuzzleActivity.this).inflate(R.layout.exit_quizz, exit_quizz_layout);
@@ -93,6 +131,12 @@ public class PuzzleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(PuzzleActivity.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 alertDialog.dismiss();
             }
         });
@@ -101,6 +145,12 @@ public class PuzzleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(PuzzleActivity.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 finish();
             }
         });
@@ -115,7 +165,6 @@ public class PuzzleActivity extends AppCompatActivity {
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap bitmap = drawable.getBitmap();
-////
         int[] dimensions = getBitmapPositionInsideImageView(imageView);
         int scaledBitmapLeft = dimensions[0];
         int scaledBitmapTop = dimensions[1];
@@ -124,7 +173,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
         int croppedImageWidth = scaledBitmapWidth - 2 * abs(scaledBitmapLeft);
         int croppedImageHeight = scaledBitmapHeight - 2 * abs(scaledBitmapTop);
-//
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledBitmapWidth, scaledBitmapHeight, true);
         Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, abs(scaledBitmapLeft), abs(scaledBitmapTop), croppedImageWidth, croppedImageHeight);
 
@@ -281,7 +329,29 @@ public class PuzzleActivity extends AppCompatActivity {
     }
     public void checkGameOver() {
         if (isGameOver()) {
-            finish();
+            Shape.DrawableShape drawableShape = new Shape.DrawableShape(AppCompatResources.getDrawable(this,R.drawable.ic_android),true);
+            KonfettiView konfettiView = findViewById(R.id.congratulation_effect);
+            final MediaPlayer mediaPlayer = MediaPlayer.create(PuzzleActivity.this,R.raw.correct_answer_effect);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+            EmitterConfig emitterConfig = new Emitter(300, TimeUnit.MILLISECONDS).max(300);
+            konfettiView.start(
+                new PartyFactory(emitterConfig)
+                        .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE, drawableShape)
+                        .spread(360)
+                        .position(0.5, 0.25,1,1)
+                        .sizes(new Size(8,50,10))
+                        .timeToLive(10000)
+                        .fadeOutEnabled(true)
+                        .build()
+
+            );
+//            finish();
         }
     }
     private boolean isGameOver() {
@@ -294,7 +364,7 @@ public class PuzzleActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setPicFromUrl(String url) {
+    private ImageView setPicFromUrl(String url, ImageView imageView) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -304,8 +374,8 @@ public class PuzzleActivity extends AppCompatActivity {
                     connection.setDoInput(true);
                     connection.connect();
                     InputStream input = connection.getInputStream();
-                    int targetW = 300;
-                    int targetH = 500;
+                    int targetW = imageView.getWidth();
+                    int targetH = imageView.getHeight();
 
                     // Get the dimensions of the bitmap
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -332,18 +402,77 @@ public class PuzzleActivity extends AppCompatActivity {
                             case ExifInterface.ORIENTATION_ROTATE_270:
                                 rotatedBitmap = rotateImage(bitmap, 270);
                                 break;
+
                         }
+                        Bitmap finalRotatedBitmap = rotatedBitmap;
+                        imageView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(finalRotatedBitmap);
+                                pieces = splitImage(imageView);
+                                TouchListener touchListener = new TouchListener(PuzzleActivity.this);
+                                // shuffle pieces order
+                                Collections.shuffle(pieces);
+                                for (PuzzlePiece piece : pieces) {
+                                    piece.setOnTouchListener(touchListener);
+                                    layout.addView(piece);
+                                    // randomize position, on the bottom of the screen
+                                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                                    lParams.leftMargin = new Random().nextInt(layout.getWidth() - piece.pieceWidth);
+                                    lParams.topMargin = layout.getHeight() - piece.pieceHeight;
+                                    piece.setLayoutParams(lParams);
+                                }
+                            }
+                        });
+
+
                     } catch (IOException e) {
                         Toast.makeText(PuzzleActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     }
-                    imageView.setImageBitmap(rotatedBitmap);
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
         });
         thread.start();
+        return imageView;
+    }
 
+    private void setPicFromPhotoPath(String mCurrentPhotoPath, ImageView imageView) {
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath,bmOptions);
+        Bitmap rotatedBitmap = bitmap;
+        try {
+            ExifInterface ei = new ExifInterface(mCurrentPhotoPath);
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotatedBitmap = rotateImage(bitmap, 90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotatedBitmap = rotateImage(bitmap, 180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotatedBitmap = rotateImage(bitmap, 270);
+                    break;
+            }
+        } catch (IOException e) {
+            Toast.makeText(PuzzleActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
+        imageView.setImageBitmap(rotatedBitmap);
     }
 
     public static Bitmap rotateImage(Bitmap source, float angle) {

@@ -28,6 +28,12 @@ public class ImgView extends AppCompatActivity {
             {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(ImgView.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 onBackPressed();
             }
         });

@@ -52,6 +52,12 @@ public class CategoryPage extends AppCompatActivity implements SwipeRefreshLayou
             public void onClick(View view) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(CategoryPage.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 onBackPressed();
             }
         });
@@ -155,6 +161,12 @@ public class CategoryPage extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
         final MediaPlayer mediaPlayer = MediaPlayer.create(CategoryPage.this,R.raw.reload_effect);
         mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) {
             return;

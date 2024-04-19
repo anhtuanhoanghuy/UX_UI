@@ -35,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuestionActivity extends AppCompatActivity {
-    private TextView countdown_timer, option1, option2, option3, option4, question_text;
+    private TextView countdown_timer, option1, option2, option3, option4, question_text, question_number;
     private ImageView close_button, question_image;
     private ConstraintLayout exit_quizz_layout, a_layout, b_layout, c_layout, d_layout;
     private CountDownTimer timer;
@@ -60,6 +60,7 @@ public class QuestionActivity extends AppCompatActivity {
         option3_layout = findViewById(R.id.option3_layout);
         option4_layout = findViewById(R.id.option4_layout);
         countdown_timer = findViewById(R.id.countdown_timer);
+        question_number = findViewById(R.id.question_number);
 
         option1 = findViewById(R.id.option_1);
         option2 = findViewById(R.id.option_2);
@@ -83,6 +84,12 @@ public class QuestionActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 timer.cancel();
                 finish();
             }
@@ -107,6 +114,12 @@ public class QuestionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 alertDialog.dismiss();
             }
         });
@@ -114,7 +127,12 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this,R.raw.close_effect);
-                mediaPlayer.start();
+                mediaPlayer.start(); mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 timer.cancel();
                 finish();
             }
@@ -142,6 +160,7 @@ public class QuestionActivity extends AppCompatActivity {
 
 
     public void setQuestion() {
+        question_number.setText("Câu hỏi " + String.valueOf(number_question+1));
         a_layout.setBackgroundColor(Color.rgb(225, 27, 60));
         b_layout.setBackgroundColor(Color.rgb(18, 104, 205));
         c_layout.setBackgroundColor(Color.rgb(214, 158, 0));
@@ -154,7 +173,7 @@ public class QuestionActivity extends AppCompatActivity {
         option3_layout.setEnabled(true);
         option4_blur.setVisibility(View.INVISIBLE);
         option4_layout.setEnabled(true);
-        Glide.with(this).load(questionList.get(number_question).getQuestion_image()).into(question_image);
+        Glide.with(getApplicationContext()).load(questionList.get(number_question).getQuestion_image()).into(question_image);
         question_text.setText(questionList.get(number_question).getQuestion_text());
         option1.setText(questionList.get(number_question).getQuestion_option1());
         option2.setText(questionList.get(number_question).getQuestion_option2());
@@ -172,6 +191,12 @@ public class QuestionActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.click_effect);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         option1_layout.setEnabled(false);
                         option2_blur.setVisibility(View.VISIBLE);
                         option2_layout.setEnabled(false);
@@ -185,6 +210,12 @@ public class QuestionActivity extends AppCompatActivity {
                                 if (option1.getText().equals(questionList.get(number_question).getQuestion_key())) {
                                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.correct_answer_effect);
                                     mediaPlayer.start();
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            mp.release();
+                                        }
+                                    });
                                     a_layout.setBackgroundColor(Color.rgb(0, 255, 0));
                                     correctNumberAnswer++;
                                     score += 10;
@@ -197,6 +228,12 @@ public class QuestionActivity extends AppCompatActivity {
                                 } else {
                                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.wrong_answer_effect);
                                     mediaPlayer.start();
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            mp.release();
+                                        }
+                                    });
                                     a_layout.setBackgroundColor(Color.rgb(255, 0, 0));
                                     wrongNumberAnswer++;
                                     handler.postDelayed(new Runnable() {
@@ -216,6 +253,12 @@ public class QuestionActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.click_effect);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         option1_layout.setEnabled(false);
                         option1_blur.setVisibility(View.VISIBLE);
                         option2_layout.setEnabled(false);
@@ -229,6 +272,12 @@ public class QuestionActivity extends AppCompatActivity {
                                 if (option2.getText().equals(questionList.get(number_question).getQuestion_key())) {
                                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.correct_answer_effect);
                                     mediaPlayer.start();
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            mp.release();
+                                        }
+                                    });
                                     b_layout.setBackgroundColor(Color.rgb(0, 255, 0));
                                     correctNumberAnswer++;
                                     score += 10;
@@ -241,6 +290,12 @@ public class QuestionActivity extends AppCompatActivity {
                                 } else {
                                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.wrong_answer_effect);
                                     mediaPlayer.start();
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            mp.release();
+                                        }
+                                    });
                                     b_layout.setBackgroundColor(Color.rgb(255, 0, 0));
                                     wrongNumberAnswer++;
                                     handler.postDelayed(new Runnable() {
@@ -260,6 +315,12 @@ public class QuestionActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.click_effect);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         option1_layout.setEnabled(false);
                         option1_blur.setVisibility(View.VISIBLE);
                         option2_layout.setEnabled(false);
@@ -285,6 +346,12 @@ public class QuestionActivity extends AppCompatActivity {
                                 } else {
                                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.wrong_answer_effect);
                                     mediaPlayer.start();
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            mp.release();
+                                        }
+                                    });
                                     c_layout.setBackgroundColor(Color.rgb(255, 0, 0));
                                     wrongNumberAnswer++;
                                     handler.postDelayed(new Runnable() {
@@ -304,6 +371,12 @@ public class QuestionActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.click_effect);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         option1_layout.setEnabled(false);
                         option1_blur.setVisibility(View.VISIBLE);
                         option2_layout.setEnabled(false);
@@ -317,6 +390,12 @@ public class QuestionActivity extends AppCompatActivity {
                                 if (option4.getText().equals(questionList.get(number_question).getQuestion_key())) {
                                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.correct_answer_effect);
                                     mediaPlayer.start();
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            mp.release();
+                                        }
+                                    });
                                     d_layout.setBackgroundColor(Color.rgb(0, 255, 0));
                                     correctNumberAnswer++;
                                     score += 10;
@@ -330,6 +409,12 @@ public class QuestionActivity extends AppCompatActivity {
                                 } else {
                                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.wrong_answer_effect);
                                     mediaPlayer.start();
+                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(MediaPlayer mp) {
+                                            mp.release();
+                                        }
+                                    });
                                     d_layout.setBackgroundColor(Color.rgb(255, 0, 0));
                                     wrongNumberAnswer++;
                                     handler.postDelayed(new Runnable() {
@@ -348,6 +433,12 @@ public class QuestionActivity extends AppCompatActivity {
                 if (seconds <= 5) {
                     final MediaPlayer mediaPlayer = MediaPlayer.create(QuestionActivity.this, R.raw.timer);
                     mediaPlayer.start();
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                        }
+                    });
                 }
             }
 
