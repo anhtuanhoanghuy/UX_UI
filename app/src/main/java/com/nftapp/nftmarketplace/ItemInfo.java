@@ -44,6 +44,12 @@ public class ItemInfo extends AppCompatActivity {
             public void onClick(View view) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 onBackPressed();
             }
         });
@@ -73,6 +79,12 @@ public class ItemInfo extends AppCompatActivity {
                 intent.putExtra("image",bundle1);
                 final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.click_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 startActivity(intent);
             }
         });
@@ -95,6 +107,12 @@ public class ItemInfo extends AppCompatActivity {
             public void onClick(View v) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.click_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 if (item.getIsFavourite() == 0) {
                     ApiService.apiService.sendPOST_item("",Integer.toString(item.getId()),"1").enqueue(new Callback<List<Item>>() {
                         @Override

@@ -17,11 +17,20 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.nftapp.nftmarketplace.model.QuizzPackage;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 public class QuizzResult extends AppCompatActivity {
     private ImageView close_button;
@@ -36,6 +45,24 @@ public class QuizzResult extends AppCompatActivity {
         setContentView(R.layout.quizz_result);
         final MediaPlayer mediaPlayer = MediaPlayer.create(QuizzResult.this,R.raw.win_effect);
         mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
+        Shape.DrawableShape drawableShape = new Shape.DrawableShape(AppCompatResources.getDrawable(this,R.drawable.ic_android),true);
+        KonfettiView konfettiView = findViewById(R.id.congratulation_effect);
+        EmitterConfig emitterConfig = new Emitter(300, TimeUnit.MILLISECONDS).max(300);
+        konfettiView.start(
+                new PartyFactory(emitterConfig)
+                        .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE, drawableShape)
+                        .spread(360)
+                        .position(0.5, 0.25,1,1)
+                        .sizes(new Size(8,50,10))
+                        .timeToLive(10000)
+                        .fadeOutEnabled(true)
+                        .build());
         Bundle bundle = getIntent().getExtras();
         quizz_package = bundle.getString("quizz_package");
         quizz_level = bundle.getString("quizz_level");
@@ -56,6 +83,12 @@ public class QuizzResult extends AppCompatActivity {
             {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(QuizzResult.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 Bundle bundle = new Bundle();
                 bundle.putString("level",quizz_level);
                 Intent intent = new Intent(QuizzResult.this,QuizzPackageSelector.class);
@@ -70,6 +103,12 @@ public class QuizzResult extends AppCompatActivity {
             public void onClick(View v) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(QuizzResult.this,R.raw.click_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 View view1 = LayoutInflater.from(QuizzResult.this).inflate(R.layout.timer_dialog, timerConstraintLayout);
                 Button cancel_timer = view1.findViewById(R.id.cancel_timer);
                 TextView countdown_timer = view1.findViewById(R.id.countdown_timer);
@@ -87,6 +126,12 @@ public class QuizzResult extends AppCompatActivity {
                     public void onTick(long millisUntilFinished) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(QuizzResult.this,R.raw.timer);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         long seconds = (millisUntilFinished / 1000) % 60;
                         String timeFormatted = String.format(Locale.getDefault(),"%01d",seconds);
                         countdown_timer.setText(timeFormatted);
@@ -102,6 +147,12 @@ public class QuizzResult extends AppCompatActivity {
                     public void onClick(View v) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(QuizzResult.this,R.raw.close_effect);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         alertDialog.dismiss();
                         timer.cancel();
                     }

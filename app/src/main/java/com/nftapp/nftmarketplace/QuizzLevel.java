@@ -34,6 +34,12 @@ public class QuizzLevel extends AppCompatActivity {
             public void onClick(View view) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(QuizzLevel.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 onBackPressed();
             }
         });

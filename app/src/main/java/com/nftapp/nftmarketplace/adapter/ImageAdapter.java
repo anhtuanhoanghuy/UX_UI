@@ -1,116 +1,108 @@
 package com.nftapp.nftmarketplace.adapter;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.nftapp.nftmarketplace.PuzzleActivity;
 import com.nftapp.nftmarketplace.R;
+import com.nftapp.nftmarketplace.model.Item;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ItemViewHolder>{
     private Context mContext;
-    private AssetManager am;
-    private String[] files;
+    private List<Item> mListItem;
+
+    public ImageAdapter(List<Item> mListItem) {
+        this.mListItem = mListItem;
+    }
 
     public ImageAdapter(Context mContext) {
-        mContext = mContext;
-        am = mContext.getAssets();
-        try {
-            files  = am.list("img");
-        } catch (IOException e) {
-            e.printStackTrace();
+        this.mContext = mContext;
+    }
+
+    public void setData(List<Item> list) {
+        this.mListItem = list;
+        notifyDataSetChanged();
+    }
+    public void setFilterList(List<Item> filterList) {
+        this.mListItem = filterList;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_element,parent,false);
+        return new ItemViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        Item item = mListItem.get(position);
+        if (item == null) {
+            return;
         }
-    }
+        Glide.with( mContext).load(item.getItem_image()).into(holder.gridImageview);
 
-    public int getCount() {
-        return files.length;
-    }
-
-    public Object getItem(int position) {
-        return null;
-    }
-
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    // create a new ImageView for each item referenced by the Adapter
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.grid_element, null);
-        }
-
-        final ImageView imageView = convertView.findViewById(R.id.gridImageview);
-        imageView.setImageBitmap(null);
-        // run image related code after the view was laid out
-        imageView.post(new Runnable() {
+        holder.layout_image.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                new AsyncTask<Void, Void, Void>() {
-                    private Bitmap bitmap;
+            public void onClick(View view) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.click_effect);
+                mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
-                    protected Void doInBackground(Void... voids) {
-                        bitmap = getPicFromAsset(imageView, files[position]);
-                        return null;
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
                     }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                        imageView.setImageBitmap(bitmap);
-                    }
-                }.execute();
+                });
+                onClickGoToDetail(item);
             }
         });
 
-        return convertView;
     }
 
-    private Bitmap getPicFromAsset(ImageView imageView, String assetName) {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
+    private void onClickGoToDetail(Item item){
+        Intent intent = new Intent(mContext, PuzzleActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("object_image",item.getItem_image());
+        intent.putExtras(bundle);
+        mContext.startActivity(intent);
+    }
 
-        if(targetW == 0 || targetH == 0) {
-            // view has no dimensions set
-            return null;
+    public void release() {
+        mContext = null;
+    }
+
+    @Override
+    public int getItemCount() {
+        if(mListItem != null) {
+            return mListItem.size();
         }
+        return 0;
+    }
 
-        try {
-            InputStream is = am.open("img/" + assetName);
-            // Get the dimensions of the bitmap
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            bmOptions.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-            int photoW = bmOptions.outWidth;
-            int photoH = bmOptions.outHeight;
 
-            // Determine how much to scale down the image
-            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+    public class ItemViewHolder extends RecyclerView.ViewHolder{
 
-            is.reset();
+        private CardView layout_image;
+        private ImageView gridImageview;
+        public ItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+            layout_image = itemView.findViewById(R.id.layout_image);
+            gridImageview = itemView.findViewById(R.id.gridImageview);
 
-            // Decode the image file into a Bitmap sized to fill the View
-            bmOptions.inJustDecodeBounds = false;
-            bmOptions.inSampleSize = scaleFactor;
-            bmOptions.inPurgeable = true;
-
-            return BitmapFactory.decodeStream(is, new Rect(-1, -1, -1, -1), bmOptions);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            return null;
         }
     }
 }

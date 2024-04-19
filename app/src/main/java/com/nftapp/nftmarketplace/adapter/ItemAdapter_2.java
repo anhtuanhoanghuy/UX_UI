@@ -64,6 +64,12 @@ public class ItemAdapter_2 extends RecyclerView.Adapter<ItemAdapter_2.ItemViewHo
             public void onClick(View view) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.click_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 onClickGoToDetail(item);
             }
         });

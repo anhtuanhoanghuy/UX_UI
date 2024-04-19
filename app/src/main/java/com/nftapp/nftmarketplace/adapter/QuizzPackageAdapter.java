@@ -72,6 +72,12 @@ public class QuizzPackageAdapter extends RecyclerView.Adapter<QuizzPackageAdapte
             public void onClick(View view) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.click_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 View view1 = LayoutInflater.from(mContext).inflate(R.layout.timer_dialog, timerConstraintLayout);
                 Button cancel_timer = view1.findViewById(R.id.cancel_timer);
                 TextView countdown_timer = view1.findViewById(R.id.countdown_timer);
@@ -89,6 +95,12 @@ public class QuizzPackageAdapter extends RecyclerView.Adapter<QuizzPackageAdapte
                     public void onTick(long millisUntilFinished) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.timer);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         long seconds = (millisUntilFinished / 1000) % 60;
                         String timeFormatted = String.format(Locale.getDefault(),"%01d",seconds);
                         countdown_timer.setText(timeFormatted);
@@ -106,6 +118,12 @@ public class QuizzPackageAdapter extends RecyclerView.Adapter<QuizzPackageAdapte
                     public void onClick(View v) {
                         final MediaPlayer mediaPlayer = MediaPlayer.create(mContext,R.raw.close_effect);
                         mediaPlayer.start();
+                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                mp.release();
+                            }
+                        });
                         alertDialog.dismiss();
                         timer.cancel();
                     }
@@ -151,8 +169,6 @@ public class QuizzPackageAdapter extends RecyclerView.Adapter<QuizzPackageAdapte
             super(itemView);
             package_layout = itemView.findViewById(R.id.package_layout);
             package_number = itemView.findViewById(R.id.package_number);
-
-
         }
     }
 

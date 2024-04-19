@@ -55,6 +55,12 @@ public class Travel extends AppCompatActivity implements SwipeRefreshLayout.OnRe
             public void onClick(View view) {
                 final MediaPlayer mediaPlayer = MediaPlayer.create(Travel.this,R.raw.close_effect);
                 mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
                 onBackPressed();
             }
         });
@@ -174,6 +180,12 @@ public class Travel extends AppCompatActivity implements SwipeRefreshLayout.OnRe
     public void onRefresh() {
         final MediaPlayer mediaPlayer = MediaPlayer.create(Travel.this,R.raw.reload_effect);
         mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
         getListCategory();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
