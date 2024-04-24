@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nftapp.nftmarketplace.CategoryPage;
 import com.nftapp.nftmarketplace.ImgView;
+import com.nftapp.nftmarketplace.MainActivity_Color;
 import com.nftapp.nftmarketplace.MainActivity_Puzzle;
 import com.nftapp.nftmarketplace.QuizzLevel;
 import com.nftapp.nftmarketplace.MainActivity_Quiz;
@@ -73,7 +74,7 @@ public class FeatureAdapter extends RecyclerView.Adapter<FeatureAdapter.FeatureV
                intent = new Intent(mContext, MainActivity_Puzzle.class);
                break;
            case 2:
-               intent = new Intent(mContext, ImgView.class);
+               intent = new Intent(mContext, MainActivity_Color.class);
                break;
            case 3:
                intent = new Intent(mContext, QuizzLevel.class);
