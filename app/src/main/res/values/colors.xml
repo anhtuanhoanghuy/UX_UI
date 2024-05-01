@@ -13,5 +13,101 @@
     <color name="orange">#FFA500</color>
     <color name="pink">#FFC0CB</color>
     <color name="green">#86DF95</color>
+    <color name="gris_light">#e1dfe1</color>
+
+
+
+
+
+    <color name="colorAccent">#d81b60</color>
+
+    <color name="colorPrimaryDark">#00574b</color>
+
+    <color name="colorPrimary">#008577</color>
+
+    <color name="colorTransparentWhile">#cccccc</color>
+
+
+
+    <color name="light_grey">#6A686A</color>
+
+    <color name="red_light">#ff605c</color>
+
+    <color name="orange_light">#ffbd44</color>
+
+    <color name="red">#ff0000</color>
+
+    <color name="violet">#9C27B0</color>
+
+    <color name="purple">#673AB7</color>
+
+    <color name="chocalaty">#4B4850</color>
+
+    <color name="sea_green">#2E8B57</color>
+
+    <color name="aqua">#B8E7EA</color>
+
+    <color name="vio">#21244D</color>
+
+    <color name="brown">#8B4513</color>
+
+
+
+
+
+    <array name="demo_colors">
+
+        <item>@color/colorAccent</item>
+
+        <item>@color/colorPrimaryDark</item>
+
+        <item>@color/colorPrimary</item>
+
+        <item>@color/black</item>
+
+        <item>@color/blue</item>
+
+        <item>@color/gray</item>
+
+        <item>@color/orange_light</item>
+
+        <item>@color/red</item>
+
+
+
+        <item>@color/violet</item>
+
+        <item>@color/purple</item>
+
+        <item>@color/pink</item>
+
+        <item>@color/chocalaty</item>
+
+        <item>@color/sea_green</item>
+
+        <item>@color/aqua</item>
+
+        <item>@color/vio</item>
+
+        <item>@color/brown</item>
+
+        <item>@color/pink</item>
+
+        <item>@color/green</item>
+
+        <item>@color/red_light</item>
+
+        <item>@color/orange</item>
+
+        <item>@color/light_blue_600</item>
+
+
+
+    </array>
+
+
+
+
+
 
 </resources>

@@ -77,6 +77,13 @@
         <activity
             android:name=".DoneAllQuiz"
             android:exported="true" />
+        <activity
+            android:name=".PaintActivity"
+            android:exported="false"
+            android:theme="@style/Theme.VNTravel" />
+        <activity
+            android:name=".MainActivity_Color"
+            android:exported="false" />
 
         <provider
             android:authorities="${applicationId}.fileprovider"

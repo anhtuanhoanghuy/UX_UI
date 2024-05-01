@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/avt4"
+        android:src="@drawable/cauvang"
         android:background="@color/black"/>
     <ImageView
         android:id="@+id/close_button"

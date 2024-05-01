@@ -42,6 +42,9 @@ public class ItemInfo extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mediaPlayer1.isPlaying()) {
+                    mediaPlayer1.stop();
+                }
                 final MediaPlayer mediaPlayer = MediaPlayer.create(ItemInfo.this,R.raw.close_effect);
                 mediaPlayer.start();
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -160,5 +163,13 @@ public class ItemInfo extends AppCompatActivity {
 
         } catch (Exception exception) {
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mediaPlayer1.isPlaying()) {
+            mediaPlayer1.stop();
+        }
+        super.onBackPressed();
     }
 }

@@ -54,5 +54,8 @@ public interface ApiService {
     Call<List<QuizzPackage>> sendPOST_package(@Field("level") String quizz_level,
                                               @Field("package") String quizz_package);
 
+    @FormUrlEncoded
+    @POST("Color.php")
+    Call<List<Item>> sendPOST_color(@Field("color") String color);
 
 }
