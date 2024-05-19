@@ -14,14 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nftapp.nftmarketplace.CategoryPage;
-import com.nftapp.nftmarketplace.ImgView;
 import com.nftapp.nftmarketplace.MainActivity_Color;
 import com.nftapp.nftmarketplace.MainActivity_Puzzle;
 import com.nftapp.nftmarketplace.QuizzLevel;
 import com.nftapp.nftmarketplace.MainActivity_Quiz;
 import com.nftapp.nftmarketplace.Travel;
-import com.nftapp.nftmarketplace.ItemInfo;
 import com.nftapp.nftmarketplace.R;
 import com.nftapp.nftmarketplace.model.Feature;
 

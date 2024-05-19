@@ -8,20 +8,35 @@
     android:layout_height="match_parent"
     tools:context=".PaintActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
+        android:layout_height="wrap_content">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?android:actionBarSize"
-            android:background="@color/white"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:id="@+id/appbar2" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.nftapp.nftmarketplace.widget.PaintView
+            <ImageView
+                android:id="@+id/save_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/save_bttn" />
+
+            <ImageView
+                android:id="@+id/close_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_close_24_black"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"/>
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.nftapp.nftmarketplace.model.PaintView
         android:id="@+id/paintView"
         android:layout_width="match_parent"
         android:layout_height="450dp" />
@@ -44,27 +59,32 @@
         app:spectrum_outlineWidth="2dp"
        />
 
-    <LinearLayout
-        android:layout_width="400dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="196dp"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@drawable/multi_color"
             android:onClick="selectColor"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="10dp"
             android:layout_marginBottom="7dp"
-            android:text="Change Color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Thêm màu"
             />
         <ImageButton
             android:layout_width="185dp"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_gravity="left"
             android:onClick="undoLastAction"
             android:src="@drawable/undo"
             android:background="@drawable/undo_bg"
-            android:layout_marginStart="7dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="7dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

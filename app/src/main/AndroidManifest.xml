@@ -68,6 +68,9 @@
             android:name=".MainActivity_Puzzle"
             android:exported="true" />
         <activity
+            android:name=".MainActivity_Color"
+            android:exported="false" />
+        <activity
             android:name=".PuzzleActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
@@ -80,10 +83,8 @@
         <activity
             android:name=".PaintActivity"
             android:exported="false"
-            android:theme="@style/Theme.VNTravel" />
-        <activity
-            android:name=".MainActivity_Color"
-            android:exported="false" />
+            android:theme="@style/Theme.VNTravel"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:authorities="${applicationId}.fileprovider"

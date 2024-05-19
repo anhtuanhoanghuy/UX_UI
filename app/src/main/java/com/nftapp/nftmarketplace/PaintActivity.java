@@ -7,44 +7,47 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
-
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.nftapp.nftmarketplace.model.Common;
+import com.nftapp.nftmarketplace.model.PaintView;
+import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
-import com.nftapp.nftmarketplace.PaintView;
-import com.thebluealliance.spectrum.SpectrumPalette;
+public class PaintActivity extends AppCompatActivity implements SpectrumPalette.OnColorSelectedListener {
 
-public class PaintActivity  extends AppCompatActivity implements SpectrumPalette.OnColorSelectedListener {
+    private PaintView paintView;
+    private ImageView close_button;
+    private ImageView save_button;
+    private ConstraintLayout save_dialog_layout;
 
-    Toolbar toolbar;
-
-    PaintView paintView;
     //request code for file related permission
     public static final int request_code = 101;
 
@@ -52,75 +55,92 @@ public class PaintActivity  extends AppCompatActivity implements SpectrumPalette
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paint);
-
-        intiToolbar();
-
         //fill algorithm i.e. spectrum
-
         SpectrumPalette spectrumPalette = findViewById(R.id.palette);
         spectrumPalette.setOnColorSelectedListener(this);
-
         // for paintview
-
         paintView =  findViewById(R.id.paintView);
+        close_button = findViewById(R.id.close_button);
+        save_button = findViewById(R.id.save_button);
+        close_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(PaintActivity.this,R.raw.close_effect);
+                mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
+                onBackPressed();
+            }
+        });
+
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final MediaPlayer mediaPlayer = MediaPlayer.create(PaintActivity.this,R.raw.click_effect);
+                mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
+                showDialogForSave();
+            }
+        });
 
 
     }
-
-    private void intiToolbar() {
-
-        Toolbar toolbar = findViewById(R.id.appbar2);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_close_24_black);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-        if(id == R.id.action_save){
-            showDialogForSave();   // dialog when you save image
-        }else if(id == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void showDialogForSave() {
-        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=-PackageManager.PERMISSION_GRANTED){
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=-PackageManager.PERMISSION_GRANTED){
             requestPermissions(new  String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, request_code);
         }else {
+            View view = LayoutInflater.from(PaintActivity.this).inflate(R.layout.save_dialog, save_dialog_layout);
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PaintActivity.this);
+            builder.setView(view);
+            Button cancel_button = view.findViewById(R.id.cancel_button);
+            Button accept = view.findViewById(R.id.accept_button);
+            final android.app.AlertDialog alertDialog = builder.create();
+            if (alertDialog.getWindow() != null) {
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            alertDialog.show();
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Have You Saved Picture ?");
-
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            cancel_button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                public void onClick(View v) {
+                    final MediaPlayer mediaPlayer = MediaPlayer.create(PaintActivity.this,R.raw.close_effect);
+                    mediaPlayer.start();
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                        }
+                    });
+                    alertDialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            accept.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View v) {
+                    final MediaPlayer mediaPlayer = MediaPlayer.create(PaintActivity.this,R.raw.close_effect);
+                    mediaPlayer.start(); mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                        }
+                    });
                     try {
                         save();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    dialog.dismiss();
+                    alertDialog.dismiss();
                 }
             });
-            builder.show();
         }
     }
 

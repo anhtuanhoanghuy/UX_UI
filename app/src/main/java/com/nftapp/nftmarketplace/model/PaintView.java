@@ -1,4 +1,4 @@
-package com.nftapp.nftmarketplace;
+package com.nftapp.nftmarketplace.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -96,12 +96,12 @@ public class PaintView extends View {
         if(bitmapList.size() > 0){
 
             bitmapList.remove(bitmapList.size() - 1);
-            if(bitmapList.size() > 0){
-                bitmap = bitmapList.get(bitmapList.size() - 1);
-            }else {
-                bitmap = Bitmap.createBitmap(defaultBitmap);
+                if(bitmapList.size() > 0){
+                    bitmap = bitmapList.get(bitmapList.size() - 1);
+                }else {
+                    bitmap = Bitmap.createBitmap(defaultBitmap);
             }
-            invalidate();
+                invalidate();
         }
     }
 

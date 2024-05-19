@@ -1,33 +1,30 @@
 package com.nftapp.nftmarketplace;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.nftapp.nftmarketplace.adapter.ColorAdapter;
-import com.nftapp.nftmarketplace.model.Item;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import com.nftapp.nftmarketplace.api.ApiService;
+import com.nftapp.nftmarketplace.adapter.ColorAdapter;
 
-public class MainActivity_Color extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+
+public class MainActivity_Color extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
     private ImageView back_button;
     private RecyclerView rcvItem;
     private ColorAdapter mColorAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private List<Item> item;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,8 @@ public class MainActivity_Color extends AppCompatActivity implements SwipeRefres
                 onBackPressed();
             }
         });
-        rcvItem = findViewById(R.id.rcv_main);
+
+        rcvItem = findViewById(R.id.recycler_view_images);
         mColorAdapter = new ColorAdapter(this);
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -62,24 +60,20 @@ public class MainActivity_Color extends AppCompatActivity implements SwipeRefres
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
             rcvItem.setLayoutManager(linearLayoutManager);
         }
-        getListImage();
         rcvItem.setAdapter(mColorAdapter);
     }
 
-    private void getListImage() {
-        ApiService.apiService.sendPOST_color("all").enqueue(new Callback<List<Item>>() {
 
-            @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                List<Item> list = response.body();
-                mColorAdapter.setData(list);
-            }
-            @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onRefresh() {
         final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity_Color.this,R.raw.reload_effect);
@@ -90,7 +84,6 @@ public class MainActivity_Color extends AppCompatActivity implements SwipeRefres
                 mp.release();
             }
         });
-        getListImage();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

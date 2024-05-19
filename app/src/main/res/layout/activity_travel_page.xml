@@ -10,13 +10,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".Travel">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="Scroll_to_View"
         android:overScrollMode="never"
-        android:background="#6DD5FA"
         android:scrollbars="vertical"
         android:layout_marginTop="70dp">
 
@@ -63,7 +63,6 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="vertical"
-        android:background="#6DD5FA"
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
             android:id="@+id/back_button"
