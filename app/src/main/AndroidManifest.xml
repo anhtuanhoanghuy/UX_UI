@@ -23,6 +23,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".PaintActivity"
+            android:exported="false"
+            android:label="@string/title_activity_paint"
+            android:theme="@style/Theme.VNTravel" />
+        <activity
+            android:name=".MainActivity_Color"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
@@ -73,7 +81,7 @@
         <activity
             android:name=".PuzzleActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".BossAct"
             android:exported="true" />
@@ -87,13 +95,13 @@
             android:screenOrientation="portrait"/>
 
         <provider
-            android:authorities="${applicationId}.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 
