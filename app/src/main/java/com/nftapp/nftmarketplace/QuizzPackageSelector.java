@@ -64,7 +64,7 @@ public class QuizzPackageSelector extends AppCompatActivity {
             rcvItem.setLayoutManager(gridLayoutManager);
         } else {
             // Màn hình đang ở chế độ dọc
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
             rcvItem.setLayoutManager(gridLayoutManager);
         }
 

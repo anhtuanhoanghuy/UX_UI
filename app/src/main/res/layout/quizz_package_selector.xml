@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".QuizzPackageSelector"
-    android:background="#f8e0bc">
+    android:background="@drawable/background">
 
         <ScrollView
             android:id="@+id/scrollView2"
